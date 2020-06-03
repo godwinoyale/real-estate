@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using EstateApp.Data.DatabaseContexts.ApplicationDbContext;
 using EstateApp.Data.DatabaseContexts.AuthenticationDbContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,7 +22,20 @@ namespace EstateApp.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<AuthenticationDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("AuthenticationConnection")));
+                options => options.UseSqlServer(Configuration.GetConnectionString("AuthenticationConnection"),
+                sqlServerOptions => {
+                    sqlServerOptions.MigrationsAssembly("EstateApp.Data");
+                }
+            ));
+            
+            services.AddDbContextPool<ApplicationDbContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("ApplicationConnection"), 
+
+                sqlServerOptions => {
+                    sqlServerOptions.MigrationsAssembly("EstateApp.Data");
+                }
+            ));
+
             services.AddControllersWithViews();
         }
 
