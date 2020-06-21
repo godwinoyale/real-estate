@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EstateApp.Data.Migrations
 {
     [DbContext(typeof(AuthenticationDbContext))]
-    [Migration("20200620151619_FullName migration")]
+    [Migration("20200621124753_FullName migration")]
     partial class FullNamemigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
